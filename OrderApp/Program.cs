@@ -1,9 +1,19 @@
+using DotNetEnv;
 using OrderApp.Endpoints.Categories;
+using OrderApp.Infra.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Load the environment variables from the .env file
+Env.Load();
+Env.TraversePath().Load();
+
+// Get the database connection string from the .env file
+string connectionString = Env.GetString("DB_CONNECTION_STRING");
+
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddSqlServer<ApplicationDbContext>(connectionString);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
