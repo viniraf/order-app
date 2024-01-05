@@ -1,11 +1,9 @@
-﻿namespace OrderApp.Domain;
+﻿using Flunt.Notifications;
 
-public abstract class Entity
+namespace OrderApp.Domain;
+
+public abstract class Entity : Notifiable<Notification>
 {
-    public Entity()
-    {
-        Id = Guid.NewGuid();
-    }
     public Guid Id { get; set; }
 
     public string CreatedBy { get; set; } = string.Empty;
@@ -15,4 +13,9 @@ public abstract class Entity
     public string EditedBy { get; set; } = string.Empty;
 
     public DateTime EditedOn { get; set; }
+
+    public Entity()
+    {
+        Id = Guid.NewGuid();
+    }
 }

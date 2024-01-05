@@ -1,4 +1,5 @@
-﻿using OrderApp.Domain.Products;
+﻿using Flunt.Notifications;
+using OrderApp.Domain.Products;
 using OrderApp.Infra.Data;
 
 namespace OrderApp.Endpoints.Categories;
@@ -13,14 +14,21 @@ public class CategoryPost
 
     public static IResult Action (CategoryRequest categoryRequest, ApplicationDbContext context)
     {
-        var category = new Category
+
+        var category = new Category(categoryRequest.Name)
         {
-            Name = categoryRequest.Name,
             CreatedBy = "AdminTest",
             CreatedOn = DateTime.Now,
             EditedBy = "AdminTest",
             EditedOn = DateTime.Now,
         };
+
+
+        if (!category.IsValid)
+        {
+            return Results.BadRequest(category.Notifications);
+        }
+
         context.Categories.Add(category);
         context.SaveChanges();
 
