@@ -14,15 +14,10 @@ public class CategoryPost
 
     public static IResult Action (CategoryRequest categoryRequest, ApplicationDbContext context)
     {
+        var createdByTemp = "AdminTest";
+        var editedByTemp = "AdminTest";
 
-        var category = new Category(categoryRequest.Name)
-        {
-            CreatedBy = "AdminTest",
-            CreatedOn = DateTime.Now,
-            EditedBy = "AdminTest",
-            EditedOn = DateTime.Now,
-        };
-
+        var category = new Category(categoryRequest.Name, createdByTemp, editedByTemp);
 
         if (!category.IsValid)
         {
