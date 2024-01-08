@@ -1,4 +1,5 @@
 using DotNetEnv;
+using Microsoft.AspNetCore.Identity;
 using OrderApp.Endpoints.Categories;
 using OrderApp.Infra.Data;
 
@@ -12,7 +13,11 @@ Env.TraversePath().Load();
 string connectionString = Env.GetString("DB_CONNECTION_STRING");
 
 // Add services to the container.
+
 builder.Services.AddSqlServer<ApplicationDbContext>(connectionString);
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
