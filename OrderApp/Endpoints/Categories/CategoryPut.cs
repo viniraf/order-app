@@ -6,7 +6,7 @@ namespace OrderApp.Endpoints.Categories;
 
 public class CategoryPut
 {
-    public static string Template => "/categories/{id}";
+    public static string Template => "/categories/{id:guid}";
 
     public static string[] Methods => new string[] {HttpMethod.Put.ToString()};
 
@@ -20,6 +20,9 @@ public class CategoryPut
         {
             return Results.NotFound("This category not exists");
         }
+
+        // TODO: Add validation in fields send by the request.
+        // If the category fields are not valid, then return a Result.ValidationProblem with the proper notification
 
         category.Name = categoryRequest.Name;
         category.Active = categoryRequest.Active;

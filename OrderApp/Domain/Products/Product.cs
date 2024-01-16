@@ -1,4 +1,8 @@
-﻿namespace OrderApp.Domain.Products;
+﻿using Flunt.Notifications;
+using Flunt.Validations;
+using System.Diagnostics.Contracts;
+
+namespace OrderApp.Domain.Products;
 
 public class Product : Entity
 {
@@ -13,4 +17,15 @@ public class Product : Entity
     public bool HasStock { get; set; }
 
     public bool Active { get; set; }
+
+    public Product(string name)
+    {
+        var contract = new Contract<Category>()
+            .IsNotNullOrEmpty(name, "Name");
+
+        AddNotifications(contract);
+
+        Name = name;
+        Active = true;
+    }
 }
