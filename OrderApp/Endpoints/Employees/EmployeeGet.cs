@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using OrderApp.Domain.Products;
 using OrderApp.Infra.Data;
 using System.Security.Claims;
+using DotNetEnv;
+using Microsoft.Data.SqlClient;
+using Dapper;
 
 namespace OrderApp.Endpoints.Employees;
 
@@ -15,22 +18,24 @@ public class EmployeeGet
 
     public static Delegate Handle => Action;
 
-    public static IResult Action(UserManager<IdentityUser> userManager, [FromQuery] int page = 1, [FromQuery] int rows = 10)
-    {                                                                                   
-        var users = userManager.Users.Skip((page - 1) * rows).Take(rows).ToList();
+    public static IResult Action([FromQuery] int page = 1, [FromQuery] int rows = 10)
+    {
+        string connectionString = Env.GetString("DB_CONNECTION_STRING");
+        var db = new SqlConnection(connectionString);
 
-        var employees = new List<EmployeeResponse>();
+        string query =
+            @"SELECT 
+	            C.ClaimValue [Name],
+	            U.Email
+            FROM [OrderApp].[dbo].[AspNetUsers] U
+            INNER JOIN [OrderApp].[dbo].[AspNetUserClaims] C ON U.Id = C.UserId
+            WHERE ClaimType = 'Name'
+            ORDER BY C.ClaimValue
+            OFFSET (@page -1) * @rows ROWS FETCH NEXT @rows ROWS ONLY";
 
-        foreach (var user in users)
-        {
-            var claims = userManager.GetClaimsAsync(user).Result;
-            var claimName = claims.FirstOrDefault(c => c.Type == "Name");
+        var employees = db.Query<EmployeeResponse>(query, new { page, rows});
 
-            var userName = claimName is not null ? claimName.Value : string.Empty;
-
-            employees.Add(new EmployeeResponse { Name = userName, Email = user.Email });
-        }
-
+        
         return Results.Ok(employees);
     }
 }
