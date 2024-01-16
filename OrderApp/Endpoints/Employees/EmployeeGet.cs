@@ -18,23 +18,14 @@ public class EmployeeGet
 
     public static Delegate Handle => Action;
 
-    public static IResult Action([FromQuery] int page = 1, [FromQuery] int rows = 10)
+    public static IResult Action(QueryAllUsersWithClaimName query, [FromQuery] int page = 1, [FromQuery] int rows = 10)
     {
-        string connectionString = Env.GetString("DB_CONNECTION_STRING");
-        var db = new SqlConnection(connectionString);
+        var employees = query.Execute(page, rows);
 
-        string query =
-            @"SELECT 
-	            C.ClaimValue [Name],
-	            U.Email
-            FROM [OrderApp].[dbo].[AspNetUsers] U
-            INNER JOIN [OrderApp].[dbo].[AspNetUserClaims] C ON U.Id = C.UserId
-            WHERE ClaimType = 'Name'
-            ORDER BY C.ClaimValue
-            OFFSET (@page -1) * @rows ROWS FETCH NEXT @rows ROWS ONLY";
-
-        var employees = db.Query<EmployeeResponse>(query, new { page, rows});
-
+        if (employees is null || employees.Any() == false)
+        {
+            return Results.NotFound("There is no record in the database");
+        }
         
         return Results.Ok(employees);
     }
