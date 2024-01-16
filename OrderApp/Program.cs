@@ -2,6 +2,7 @@ using DotNetEnv;
 using Microsoft.AspNetCore.Identity;
 using OrderApp.Endpoints.Categories;
 using OrderApp.Endpoints.Employees;
+using OrderApp.Endpoints.Security;
 using OrderApp.Infra.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,5 +48,6 @@ app.MapMethods(CategoryGet.Template, CategoryGet.Methods, CategoryGet.Handle);
 app.MapMethods(CategoryPut.Template, CategoryPut.Methods, CategoryPut.Handle);
 app.MapMethods(EmployeePost.Template, EmployeePost.Methods, EmployeePost.Handle);
 app.MapMethods(EmployeeGet.Template, EmployeeGet.Methods, EmployeeGet.Handle);
+app.MapMethods(TokenPost.Template, TokenPost.Methods, TokenPost.Handle);
 
 app.Run();
