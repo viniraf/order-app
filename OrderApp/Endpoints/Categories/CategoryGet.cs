@@ -12,7 +12,7 @@ public class CategoryGet
 
     public static Delegate Handle => Action;
 
-    [Authorize]
+    [Authorize(Policy = "EmployeePolicy")]
     public static IResult Action (ApplicationDbContext context)
     {
         var categories = context.Categories.ToList();

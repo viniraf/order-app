@@ -15,7 +15,7 @@ public class EmployeePost
 
     public static Delegate Handle => Action;
 
-    [Authorize]
+    [Authorize(Policy = "EmployeePolicy")]
     public static IResult Action(EmployeeRequest employeeRequest, UserManager<IdentityUser> userManager)
     {
         var user = new IdentityUser { UserName = employeeRequest.Email, Email = employeeRequest.Email };
