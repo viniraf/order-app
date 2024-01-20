@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DotNetEnv;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using OrderApp.Endpoints.Employees;
 using System.IdentityModel.Tokens.Jwt;
@@ -29,7 +30,7 @@ public class TokenPost
             return Results.BadRequest("Password is incorrect");
         }
 
-        var key = Encoding.ASCII.GetBytes("A@fderwfQQSDXCCer34");
+        var key = Env.GetString("SECRET_KEY");
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new Claim[]
@@ -37,8 +38,8 @@ public class TokenPost
                 new Claim(ClaimTypes.Email, loginRequest.Email),
             }),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-            Audience = "OrderApp",
-            Issuer = "Issuer"
+            Audience = Env.GetString("AUDIENCE"),
+            Issuer = Env.GetString("ISSUER")
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();
