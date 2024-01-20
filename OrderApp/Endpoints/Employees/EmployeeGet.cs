@@ -19,7 +19,7 @@ public class EmployeeGet
 
     public static Delegate Handle => Action;
 
-    [Authorize]
+    [Authorize(Policy ="EmployeePolicy")]
     public static IResult Action(QueryAllUsersWithClaimName query, [FromQuery] int page = 1, [FromQuery] int rows = 10)
     {
         var employees = query.Execute(page, rows);

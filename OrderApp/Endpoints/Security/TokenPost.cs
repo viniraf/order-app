@@ -32,13 +32,21 @@ public class TokenPost
             return Results.BadRequest("Password is incorrect");
         }
 
-        var key = Env.GetString("SECRET_KEY");
+        var claims = userManager.GetClaimsAsync(user).Result;
+
+        var subject = new ClaimsIdentity(new Claim[]
+        {
+            new Claim(ClaimTypes.Email, loginRequest.Email),
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
+        });
+
+        subject.AddClaims(claims);
+
+
+        var key = Encoding.ASCII.GetBytes(Env.GetString("SECRET_KEY"));
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Email, loginRequest.Email),
-            }),
+            Subject = subject,
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             Audience = Env.GetString("AUDIENCE"),
             Issuer = Env.GetString("ISSUER")
