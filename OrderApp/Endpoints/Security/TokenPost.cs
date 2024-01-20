@@ -1,4 +1,5 @@
 ﻿using DotNetEnv;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using OrderApp.Endpoints.Employees;
@@ -16,6 +17,7 @@ public class TokenPost
 
     public static Delegate Handle => Action;
 
+    [AllowAnonymous]
     public static IResult Action(LoginRequest loginRequest, UserManager<IdentityUser> userManager)
     {
         var user = userManager.FindByEmailAsync(loginRequest.Email).Result;

@@ -7,6 +7,7 @@ using System.Security.Claims;
 using DotNetEnv;
 using Microsoft.Data.SqlClient;
 using Dapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OrderApp.Endpoints.Employees;
 
@@ -18,6 +19,7 @@ public class EmployeeGet
 
     public static Delegate Handle => Action;
 
+    [Authorize]
     public static IResult Action(QueryAllUsersWithClaimName query, [FromQuery] int page = 1, [FromQuery] int rows = 10)
     {
         var employees = query.Execute(page, rows);

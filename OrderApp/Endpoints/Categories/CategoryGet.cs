@@ -1,4 +1,5 @@
-﻿using OrderApp.Domain.Products;
+﻿using Microsoft.AspNetCore.Authorization;
+using OrderApp.Domain.Products;
 using OrderApp.Infra.Data;
 
 namespace OrderApp.Endpoints.Categories;
@@ -11,6 +12,7 @@ public class CategoryGet
 
     public static Delegate Handle => Action;
 
+    [Authorize]
     public static IResult Action (ApplicationDbContext context)
     {
         var categories = context.Categories.ToList();

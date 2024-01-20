@@ -1,4 +1,5 @@
 ﻿using Flunt.Notifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using OrderApp.Domain.Products;
 using OrderApp.Infra.Data;
@@ -14,6 +15,7 @@ public class EmployeePost
 
     public static Delegate Handle => Action;
 
+    [Authorize]
     public static IResult Action(EmployeeRequest employeeRequest, UserManager<IdentityUser> userManager)
     {
         var user = new IdentityUser { UserName = employeeRequest.Email, Email = employeeRequest.Email };

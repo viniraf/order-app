@@ -1,4 +1,5 @@
 ﻿using Flunt.Notifications;
+using Microsoft.AspNetCore.Authorization;
 using OrderApp.Domain.Products;
 using OrderApp.Infra.Data;
 
@@ -12,6 +13,7 @@ public class CategoryPost
 
     public static Delegate Handle => Action;
 
+    [Authorize]
     public static IResult Action (CategoryRequest categoryRequest, ApplicationDbContext context)
     {
         var createdByTemp = "AdminTest";
