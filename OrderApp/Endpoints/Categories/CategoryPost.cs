@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using OrderApp.Domain.Products;
 using OrderApp.Infra.Data;
+using System.Security.Claims;
 
 namespace OrderApp.Endpoints.Categories;
 
@@ -14,10 +15,12 @@ public class CategoryPost
     public static Delegate Handle => Action;
 
     [Authorize]
-    public static IResult Action (CategoryRequest categoryRequest, ApplicationDbContext context)
+    public static IResult Action (CategoryRequest categoryRequest, HttpContext httpContext, ApplicationDbContext context)
     {
-        var createdByTemp = "AdminTest";
-        var editedByTemp = "AdminTest";
+        var userId = httpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+        var createdByTemp = userId;
+        var editedByTemp = userId;
 
         var category = new Category(categoryRequest.Name, createdByTemp, editedByTemp);
 

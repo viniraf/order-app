@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using OrderApp.Domain.Products;
 using OrderApp.Infra.Data;
+using System.Security.Claims;
 
 namespace OrderApp.Endpoints.Categories;
 
@@ -12,8 +15,10 @@ public class CategoryPut
 
     public static Delegate Handle => Action;
 
-    public static IResult Action ([FromRoute] Guid id, CategoryRequest categoryRequest, ApplicationDbContext context)
+    [Authorize(Policy = "EmployeePolicy")]
+    public static IResult Action ([FromRoute] Guid id, CategoryRequest categoryRequest, HttpContext httpContext, ApplicationDbContext context)
     {
+        var userId = httpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
         var category = context.Categories.Where(c => c.Id == id).FirstOrDefault();
 
         if (category == null)
@@ -21,13 +26,15 @@ public class CategoryPut
             return Results.NotFound("This category not exists");
         }
 
-        // TODO: Add validation in fields send by the request.
-        // If the category fields are not valid, then return a Result.ValidationProblem with the proper notification
-
         category.Name = categoryRequest.Name;
         category.Active = categoryRequest.Active;
-        category.EditedBy = "AdminTestAlter";
+        category.EditedBy = userId;
         category.EditedOn = DateTime.Now;
+
+        if (!category.IsValid)
+        {
+            return Results.ValidationProblem(category.Notifications.ConvertToProblemDetails());
+        }
 
         context.SaveChanges();
 
