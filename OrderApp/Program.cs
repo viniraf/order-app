@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Diagnostics;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Load the environment variables from the .env file
@@ -68,5 +70,22 @@ app.MapMethods(CategoryPut.Template, CategoryPut.Methods, CategoryPut.Handle);
 app.MapMethods(EmployeePost.Template, EmployeePost.Methods, EmployeePost.Handle);
 app.MapMethods(EmployeeGet.Template, EmployeeGet.Methods, EmployeeGet.Handle);
 app.MapMethods(TokenPost.Template, TokenPost.Methods, TokenPost.Handle);
+
+app.UseExceptionHandler("/error");
+app.Map("/error", (HttpContext httpContext) =>
+{
+    var error = httpContext.Features?.Get<IExceptionHandlerFeature>()?.Error;
+
+    if (error is not null)
+    {
+        if (error is SqlException)
+        {
+            return Results.Problem(title: "Database out", statusCode: 500);
+        }
+    }
+
+    return Results.Problem(title: "An error ocurred", statusCode: 500);
+
+});
 
 app.Run();
