@@ -20,9 +20,9 @@ public class EmployeeGet
     public static Delegate Handle => Action;
 
     [Authorize(Policy ="EmployeePolicy")]
-    public static IResult Action(QueryAllUsersWithClaimName query, [FromQuery] int page = 1, [FromQuery] int rows = 10)
+    public static async Task<IResult> Action(QueryAllUsersWithClaimName query, [FromQuery] int page = 1, [FromQuery] int rows = 10)
     {
-        var employees = query.Execute(page, rows);
+        var employees = await query.Execute(page, rows);
 
         if (employees is null || employees.Any() == false)
         {

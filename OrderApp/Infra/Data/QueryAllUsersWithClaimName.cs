@@ -14,7 +14,7 @@ namespace OrderApp.Infra.Data
             _connectionString = Env.GetString("DB_CONNECTION_STRING");
         }
 
-        public IEnumerable<EmployeeResponse> Execute(int page, int rows)
+        public async Task<IEnumerable<EmployeeResponse>> Execute(int page, int rows)
         {
             string connectionString = _connectionString;
             var db = new SqlConnection(connectionString);
@@ -29,7 +29,7 @@ namespace OrderApp.Infra.Data
             ORDER BY C.ClaimValue
             OFFSET (@page -1) * @rows ROWS FETCH NEXT @rows ROWS ONLY";
 
-            return db.Query<EmployeeResponse>(query, new { page, rows });
+            return await db.QueryAsync<EmployeeResponse>(query, new { page, rows });
         }
 
     }
