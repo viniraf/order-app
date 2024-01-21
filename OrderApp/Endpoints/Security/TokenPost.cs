@@ -9,8 +9,10 @@ public class TokenPost
     public static Delegate Handle => Action;
 
     [AllowAnonymous]
-    public static IResult Action(LoginRequest loginRequest, UserManager<IdentityUser> userManager)
+    public static IResult Action(LoginRequest loginRequest, UserManager<IdentityUser> userManager, ILogger<TokenPost> logger)
     {
+        logger.LogInformation("Starting to obtain the token");
+
         var user = userManager.FindByEmailAsync(loginRequest.Email).Result;
 
         if (user is null)
@@ -46,6 +48,8 @@ public class TokenPost
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescriptor);
+
+        logger.LogInformation("Token successfully obtained"); 
 
         return Results.Ok(new 
         { 
