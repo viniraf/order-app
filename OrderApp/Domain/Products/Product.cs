@@ -1,8 +1,4 @@
-﻿using Flunt.Notifications;
-using Flunt.Validations;
-using System.Diagnostics.Contracts;
-
-namespace OrderApp.Domain.Products;
+﻿namespace OrderApp.Domain.Products;
 
 public class Product : Entity
 {

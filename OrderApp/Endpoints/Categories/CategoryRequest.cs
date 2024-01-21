@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace OrderApp.Endpoints.Categories;
+﻿namespace OrderApp.Endpoints.Categories;
 
 public class CategoryRequest
 {

@@ -1,7 +1,4 @@
-﻿using OrderApp.Domain.Products;
-using OrderApp.Infra.Data;
-
-namespace OrderApp.Endpoints.Categories;
+﻿namespace OrderApp.Endpoints.Categories;
 
 public class CategoryGet
 {
@@ -11,6 +8,7 @@ public class CategoryGet
 
     public static Delegate Handle => Action;
 
+    [Authorize(Policy = "EmployeePolicy")]
     public static IResult Action (ApplicationDbContext context)
     {
         var categories = context.Categories.ToList();

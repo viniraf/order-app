@@ -1,10 +1,4 @@
-﻿using Flunt.Notifications;
-using Microsoft.AspNetCore.Identity;
-using OrderApp.Domain.Products;
-using OrderApp.Infra.Data;
-using System.Security.Claims;
-
-namespace OrderApp.Endpoints.Employees;
+﻿namespace OrderApp.Endpoints.Employees;
 
 public class EmployeePost
 {
@@ -14,11 +8,14 @@ public class EmployeePost
 
     public static Delegate Handle => Action;
 
-    public static IResult Action(EmployeeRequest employeeRequest, UserManager<IdentityUser> userManager)
+    [Authorize(Policy = "EmployeePolicy")]
+    public static async Task<IResult> Action(EmployeeRequest employeeRequest, HttpContext httpContext, UserManager<IdentityUser> userManager)
     {
+        var userIdAuthenticated = httpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
         var user = new IdentityUser { UserName = employeeRequest.Email, Email = employeeRequest.Email };
 
-        var result = userManager.CreateAsync(user, employeeRequest.Password).Result;
+        var result = await userManager.CreateAsync(user, employeeRequest.Password);
 
         if (!result.Succeeded)
         {
@@ -28,10 +25,11 @@ public class EmployeePost
         var userClaims = new List<Claim>
         {
             new Claim("EmployeeCode", employeeRequest.EmployeeCode),
-            new Claim("Name", employeeRequest.Name)
+            new Claim("Name", employeeRequest.Name),
+            new Claim("CreatedBy", userIdAuthenticated),
         };
 
-        var claimResult = userManager.AddClaimsAsync(user, userClaims).Result;
+        var claimResult = await userManager.AddClaimsAsync(user, userClaims);
 
         if (!claimResult.Succeeded)
         {

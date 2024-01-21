@@ -1,8 +1,4 @@
-﻿using Flunt.Notifications;
-using OrderApp.Domain.Products;
-using OrderApp.Infra.Data;
-
-namespace OrderApp.Endpoints.Categories;
+﻿namespace OrderApp.Endpoints.Categories;
 
 public class CategoryPost
 {
@@ -12,10 +8,13 @@ public class CategoryPost
 
     public static Delegate Handle => Action;
 
-    public static IResult Action (CategoryRequest categoryRequest, ApplicationDbContext context)
+    [Authorize(Policy = "EmployeePolicy")]
+    public static async Task<IResult> Action (CategoryRequest categoryRequest, HttpContext httpContext, ApplicationDbContext context)
     {
-        var createdByTemp = "AdminTest";
-        var editedByTemp = "AdminTest";
+        var userId = httpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+        var createdByTemp = userId;
+        var editedByTemp = userId;
 
         var category = new Category(categoryRequest.Name, createdByTemp, editedByTemp);
 
@@ -24,8 +23,8 @@ public class CategoryPost
             return Results.ValidationProblem(category.Notifications.ConvertToProblemDetails());
         }
 
-        context.Categories.Add(category);
-        context.SaveChanges();
+        await context.Categories.AddAsync(category);
+        await context.SaveChangesAsync();
 
         return Results.Created($"/categories/{category.Id}", $"Created Category Id: {category.Id}");
     }

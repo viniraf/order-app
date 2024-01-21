@@ -1,14 +1,4 @@
-﻿using Flunt.Notifications;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using OrderApp.Domain.Products;
-using OrderApp.Infra.Data;
-using System.Security.Claims;
-using DotNetEnv;
-using Microsoft.Data.SqlClient;
-using Dapper;
-
-namespace OrderApp.Endpoints.Employees;
+﻿namespace OrderApp.Endpoints.Employees;
 
 public class EmployeeGet
 {
@@ -18,9 +8,10 @@ public class EmployeeGet
 
     public static Delegate Handle => Action;
 
-    public static IResult Action(QueryAllUsersWithClaimName query, [FromQuery] int page = 1, [FromQuery] int rows = 10)
+    [Authorize(Policy ="EmployeePolicy")]
+    public static async Task<IResult> Action(QueryAllUsersWithClaimName query, [FromQuery] int page = 1, [FromQuery] int rows = 10)
     {
-        var employees = query.Execute(page, rows);
+        var employees = await query.Execute(page, rows);
 
         if (employees is null || employees.Any() == false)
         {
