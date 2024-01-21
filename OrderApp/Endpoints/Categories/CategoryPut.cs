@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using OrderApp.Domain.Products;
-using OrderApp.Infra.Data;
-using System.Security.Claims;
-
-namespace OrderApp.Endpoints.Categories;
+﻿namespace OrderApp.Endpoints.Categories;
 
 public class CategoryPut
 {

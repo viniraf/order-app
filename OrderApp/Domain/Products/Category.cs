@@ -1,7 +1,4 @@
-﻿using Flunt.Notifications;
-using Flunt.Validations;
-
-namespace OrderApp.Domain.Products;
+﻿namespace OrderApp.Domain.Products;
 
 public class Category : Entity
 {

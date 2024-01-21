@@ -1,10 +1,4 @@
-﻿using Flunt.Notifications;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using OrderApp.Domain.Products;
-
-namespace OrderApp.Infra.Data;
+﻿namespace OrderApp.Infra.Data;
 
 public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {

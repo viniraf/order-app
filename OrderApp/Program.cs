@@ -1,13 +1,3 @@
-using DotNetEnv;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using OrderApp.Endpoints.Categories;
-using OrderApp.Endpoints.Employees;
-using OrderApp.Endpoints.Security;
-using OrderApp.Infra.Data;
-using System.Text;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Load the environment variables from the .env file

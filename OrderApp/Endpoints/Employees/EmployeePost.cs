@@ -1,11 +1,4 @@
-﻿using Flunt.Notifications;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using OrderApp.Domain.Products;
-using OrderApp.Infra.Data;
-using System.Security.Claims;
-
-namespace OrderApp.Endpoints.Employees;
+﻿namespace OrderApp.Endpoints.Employees;
 
 public class EmployeePost
 {

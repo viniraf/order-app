@@ -1,9 +1,4 @@
-﻿using Dapper;
-using DotNetEnv;
-using Microsoft.Data.SqlClient;
-using OrderApp.Endpoints.Employees;
-
-namespace OrderApp.Infra.Data
+﻿namespace OrderApp.Infra.Data
 {
     public class QueryAllUsersWithClaimName
     {

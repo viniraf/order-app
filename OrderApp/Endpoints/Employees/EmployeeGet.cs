@@ -1,15 +1,4 @@
-﻿using Flunt.Notifications;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using OrderApp.Domain.Products;
-using OrderApp.Infra.Data;
-using System.Security.Claims;
-using DotNetEnv;
-using Microsoft.Data.SqlClient;
-using Dapper;
-using Microsoft.AspNetCore.Authorization;
-
-namespace OrderApp.Endpoints.Employees;
+﻿namespace OrderApp.Endpoints.Employees;
 
 public class EmployeeGet
 {

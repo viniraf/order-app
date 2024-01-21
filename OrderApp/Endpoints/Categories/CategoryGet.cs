@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using OrderApp.Domain.Products;
-using OrderApp.Infra.Data;
-
-namespace OrderApp.Endpoints.Categories;
+﻿namespace OrderApp.Endpoints.Categories;
 
 public class CategoryGet
 {
