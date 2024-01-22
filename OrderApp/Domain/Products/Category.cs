@@ -6,6 +6,8 @@ public class Category : Entity
 
     public bool Active { get; set; } = true;
 
+    public Category(){}
+
     public Category(string name, string createdBy, string editedBy)
     {
         var contract = new Contract<Category>()

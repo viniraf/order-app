@@ -27,7 +27,7 @@ namespace OrderApp.Endpoints.Products
                 return Results.NotFound("No category found");
             }
 
-            var product = new Product(productRequest.Name, category, productRequest.Description, productRequest.HasStock, userId);
+            var product = new Product(productRequest.Name, category, productRequest.Description, productRequest.HasStock, productRequest.Price, userId);
 
             if (!product.IsValid)
             {

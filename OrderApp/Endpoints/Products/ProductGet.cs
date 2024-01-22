@@ -24,6 +24,7 @@
                 CategoryName = p.Category.Name,
                 Description = p.Description,
                 HasStock = p.HasStock,
+                Price = p.Price,
                 Active = p.Active,
             });
 

@@ -10,6 +10,8 @@
 
         public bool HasStock { get; set; }
 
+        public decimal Price { get; set; }
+
         public bool Active { get; set; }
     }
 }
