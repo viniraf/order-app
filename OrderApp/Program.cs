@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Diagnostics;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -84,6 +85,11 @@ app.Map("/error", (HttpContext httpContext) =>
         if (error is SqlException)
         {
             return Results.Problem(title: "Database out", statusCode: 500);
+        }
+
+        if (error is JsonException)
+        {
+            return Results.Problem(title: "Error to convert data to other type. See all the information sent", statusCode: 500);
         }
     }
 
