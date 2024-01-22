@@ -8,6 +8,7 @@
 
         public static Delegate Handle => Action;
 
+        [Authorize(Policy = "EmployeePolicy")]
         public static async Task<IResult> Action(ApplicationDbContext context)
         {
             var products = context.Products.Include(p => p.Category).OrderBy(p => p.Name).ToList();
