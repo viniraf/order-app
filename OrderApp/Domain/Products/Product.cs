@@ -14,14 +14,28 @@ public class Product : Entity
 
     public bool Active { get; set; }
 
-    public Product(string name)
+    public Product(string name, Category category, string description, bool hasTock, string createdBy)
     {
-        var contract = new Contract<Category>()
-            .IsNotNullOrEmpty(name, "Name");
+        Name = name;
+        Category = category;
+        Description = description;
+        HasStock = hasTock;
+        CreatedBy = createdBy;
+        EditedBy = createdBy;
+        CreatedOn = DateTime.Now;
+        EditedOn = DateTime.Now;
+        Active = true;
 
+        var contract = new Contract<Category>()
+            .IsNotNullOrEmpty(name, "Name")
+            .IsGreaterOrEqualsThan(name, 3, "Name")
+            .IsNotNull(category, "Category")
+            .IsNotNullOrEmpty(description, "Description")
+            .IsGreaterOrEqualsThan(description, 3, "Description")
+            .IsNotNullOrEmpty(createdBy, "CreatedBy")
+            .IsNotNullOrEmpty(createdBy, "EditedBy");
         AddNotifications(contract);
 
-        Name = name;
-        Active = true;
+
     }
 }

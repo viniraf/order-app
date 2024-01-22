@@ -70,6 +70,9 @@ app.MapMethods(CategoryPut.Template, CategoryPut.Methods, CategoryPut.Handle);
 app.MapMethods(EmployeePost.Template, EmployeePost.Methods, EmployeePost.Handle);
 app.MapMethods(EmployeeGet.Template, EmployeeGet.Methods, EmployeeGet.Handle);
 app.MapMethods(TokenPost.Template, TokenPost.Methods, TokenPost.Handle);
+app.MapMethods(ProductGet.Template, ProductGet.Methods, ProductGet.Handle);
+app.MapMethods(ProductPost.Template, ProductPost.Methods, ProductPost.Handle);
+
 
 app.UseExceptionHandler("/error");
 app.Map("/error", (HttpContext httpContext) =>
