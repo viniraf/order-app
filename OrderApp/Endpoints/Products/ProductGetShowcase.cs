@@ -16,7 +16,7 @@
                 return Results.Problem(title: "Is not possible to fetch this number of rows", statusCode: 400);
             }
 
-            var productsUnpaginated = context.Products.Include(p => p.Category).Where(p => p.HasStock && p.Category.Active);
+            var productsUnpaginated = context.Products.AsNoTracking().Include(p => p.Category).Where(p => p.HasStock && p.Category.Active);
 
             if (orderBy != "name" && orderBy != "price")
             {
