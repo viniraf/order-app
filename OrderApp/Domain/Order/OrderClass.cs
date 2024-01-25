@@ -13,18 +13,17 @@
 
         public OrderClass() { }
 
-        public OrderClass(string clientId, string clientName, List<Product> products, decimal total, string deliveryAddress)
+        public OrderClass(string clientId, string clientName, List<Product> products, string deliveryAddress)
         {
             ClientId = clientId;
             Products = products;
-            Total = total;
+            Total = 0;
             DeliveryAddress = deliveryAddress;
             CreatedBy = clientName;
             EditedBy = clientName;
             CreatedOn = DateTime.Now;
             EditedOn = DateTime.Now;
 
-            Total = 0;
             foreach (var item in products)
             {
                 Total += item.Price;
@@ -34,7 +33,7 @@
                 .IsNotNullOrEmpty(clientId, "ClientId")
                 .IsNotNullOrEmpty(clientName, "ClientName")
                 .IsNotNull(products, "Products")
-                .IsGreaterThan(total, 0, "Price")
+                .IsGreaterThan(Total, 0, "Price")
                 .IsNotNullOrEmpty(deliveryAddress, "DeliveryAddress");
             AddNotifications(contract);
 

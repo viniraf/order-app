@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Diagnostics;
+using OrderApp.Endpoints.Orders;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -75,6 +76,7 @@ app.MapMethods(ProductGet.Template, ProductGet.Methods, ProductGet.Handle);
 app.MapMethods(ProductPost.Template, ProductPost.Methods, ProductPost.Handle);
 app.MapMethods(ClientPost.Template, ClientPost.Methods, ClientPost.Handle);
 app.MapMethods(ClientGet.Template, ClientGet.Methods, ClientGet.Handle);
+app.MapMethods(OrderPost.Template, OrderPost.Methods, OrderPost.Handle);
 
 
 app.UseExceptionHandler("/error");
