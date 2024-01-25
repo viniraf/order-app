@@ -36,6 +36,6 @@ public class ClientPost
             return Results.ValidationProblem(claimResult.Errors.ConvertToProblemDetails());
         }
 
-        return Results.Created($"/clients/{newUser.Id}", $"Created Employee Id: {newUser.Id}");
+        return Results.Created($"/clients/{newUser.Id}", $"Created Client Id: {newUser.Id}");
     }
 }
