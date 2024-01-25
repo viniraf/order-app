@@ -13,6 +13,8 @@ public class OrderPost
     [Authorize]
     public static async Task<IResult> Action(OrderRequest orderRequest, HttpContext httpContext, ApplicationDbContext context)
     {
+        // TODO: Add validations if the result of db is null
+        // Return properly message using Result.ValidationProblem() passing the ConvertToProblemDetails method
 
         var clientId = httpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
         var clientName = httpContext.User.Claims.First(c => c.Type == "Name").Value;
