@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Diagnostics;
+using OrderApp.Endpoints.Orders;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,6 +72,12 @@ app.MapMethods(CategoryPut.Template, CategoryPut.Methods, CategoryPut.Handle);
 app.MapMethods(EmployeePost.Template, EmployeePost.Methods, EmployeePost.Handle);
 app.MapMethods(EmployeeGet.Template, EmployeeGet.Methods, EmployeeGet.Handle);
 app.MapMethods(TokenPost.Template, TokenPost.Methods, TokenPost.Handle);
+app.MapMethods(ProductGet.Template, ProductGet.Methods, ProductGet.Handle);
+app.MapMethods(ProductPost.Template, ProductPost.Methods, ProductPost.Handle);
+app.MapMethods(ClientPost.Template, ClientPost.Methods, ClientPost.Handle);
+app.MapMethods(ClientGet.Template, ClientGet.Methods, ClientGet.Handle);
+app.MapMethods(OrderPost.Template, OrderPost.Methods, OrderPost.Handle);
+
 
 app.UseExceptionHandler("/error");
 app.Map("/error", (HttpContext httpContext) =>
@@ -81,6 +89,11 @@ app.Map("/error", (HttpContext httpContext) =>
         if (error is SqlException)
         {
             return Results.Problem(title: "Database out", statusCode: 500);
+        }
+
+        if (error is JsonException)
+        {
+            return Results.Problem(title: "Error to convert data to other type. See all the information sent", statusCode: 500);
         }
     }
 

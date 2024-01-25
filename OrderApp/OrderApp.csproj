@@ -30,6 +30,8 @@
 		<Using Include="OrderApp.Endpoints.Employees" />
 		<Using Include="OrderApp.Endpoints.Categories" />
 		<Using Include="OrderApp.Endpoints.Security" />
+		<Using Include="OrderApp.Endpoints.Products" />
+		
 		<Using Include="OrderApp.Infra.Data" />
 	</ItemGroup>
 	
