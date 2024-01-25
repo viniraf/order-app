@@ -73,6 +73,8 @@ app.MapMethods(EmployeeGet.Template, EmployeeGet.Methods, EmployeeGet.Handle);
 app.MapMethods(TokenPost.Template, TokenPost.Methods, TokenPost.Handle);
 app.MapMethods(ProductGet.Template, ProductGet.Methods, ProductGet.Handle);
 app.MapMethods(ProductPost.Template, ProductPost.Methods, ProductPost.Handle);
+app.MapMethods(ClientPost.Template, ClientPost.Methods, ClientPost.Handle);
+app.MapMethods(ClientGet.Template, ClientGet.Methods, ClientGet.Handle);
 
 
 app.UseExceptionHandler("/error");
