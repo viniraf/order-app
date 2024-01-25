@@ -1,6 +1,6 @@
 ﻿namespace OrderApp.Domain.Order
 {
-    public class Order : Entity
+    public class OrderClass : Entity
     {
 
         public string ClientId { get; private set; } = string.Empty;
@@ -11,9 +11,9 @@
 
         public string DeliveryAddress { get; private set; } = string.Empty;
 
-        public Order() { }
+        public OrderClass() { }
 
-        public Order(string clientId, string clientName, List<Product> products, decimal total, string deliveryAddress)
+        public OrderClass(string clientId, string clientName, List<Product> products, decimal total, string deliveryAddress)
         {
             ClientId = clientId;
             Products = products;
@@ -30,7 +30,7 @@
                 Total += item.Price;
             }
 
-            var contract = new Contract<Order>()
+            var contract = new Contract<OrderClass>()
                 .IsNotNullOrEmpty(clientId, "ClientId")
                 .IsNotNullOrEmpty(clientName, "ClientName")
                 .IsNotNull(products, "Products")
